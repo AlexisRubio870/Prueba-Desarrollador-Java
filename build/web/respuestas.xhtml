@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Prueba</title>
+        <f:event type="preRenderView" listener="#{paginaController.verificarSesion()}"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"/>
+        <link rel="stylesheet" media="all" href="css/primeicons.css" />
+    </h:head>
+    <h:body>
+        <div class="container mt-4">
+            <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+                <div>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+                            <li class="breadcrumb-item"><h:link outcome="index">Inicio</h:link></li>
+                            <li class="breadcrumb-item active text-green-51" aria-current="page">Lista Respuestas</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <div class="row row-xs">
+                <h:form class="row g-3">
+                    <p:dataTable  scrollable="true" id="encuestasTable" var="c" value="#{encuestaController.listaEncuestas}" rows="5" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                  currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+                                  rowsPerPageTemplate="5,10,15" emptyMessage="No se encontraron resultados">
+
+
+                        <p:column headerText="No.Documento">
+                            <h:outputText value="#{c.noDocumentoEncuesta}"/>
+                        </p:column>
+                        <p:column headerText="E-mail" style="width: 250px">
+                            <h:outputText value="#{c.emailEncuesta}"/>
+                        </p:column>
+                        <p:column headerText="Comentarios">
+                            <h:outputText value="#{c.comentariosEncuesta}"/>
+                        </p:column>
+                        <p:column headerText="Marca Favorita de PC">
+                            <h:outputText value="#{c.marcaPCEncuesta.nombreMarcaEncuesta}"/>
+                        </p:column>
+                        <p:column headerText="Fecha de Respuesta">
+                            <h:outputText value="#{c.fechaRespuestaEncuesta}">
+                                <f:convertDateTime pattern="dd/MM/yyyy 'a las' HH:mm" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Eliminar" style="width: 90px">
+                            <p:commandButton icon="pi pi-trash" actionListener="#{encuestaController.eliminar(c)}" update="encuestasTable">
+                                <p:confirm header="Confirmacion" message="¿Esta de seguro de eliminarlo?" icon="pi pi-exclamation-triangle" />
+                                <p:confirmDialog global="true" responsive="true" hideEffect="fade" showEffect="fade">
+                                    <p:commandButton value="Eliminar" type="button" styleClass="ui-confirmdialog-yes"/>
+                                    <p:commandButton value="Cancelar" type="button" styleClass="ui-confirmdialog-no"/>
+                                </p:confirmDialog>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
+
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    </h:body>
+</html>
